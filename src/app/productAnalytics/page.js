@@ -9,8 +9,11 @@ import { Stack, Chip, CircularProgress, Box } from "@mui/material";
 import { creatProductSetApi, productApi } from "@/utils/api"; // Ensure you import the API function
 import { toast } from "react-toastify";
 import moment from "moment";
+import { useProductAnalytics } from '@/components/ProductAnalyticsContext';
 
 const ProductAnalyticsPage = () => {
+  const { setMetricFilter, metricFilter } = useProductAnalytics();
+  console.log(metricFilter);
   const [filterText, setFilterText] = useState("");
   const [productsData, setProductsData] = useState([]);
   const [appliedMetricConditions, setAppliedMetricConditions] = useState([]);
@@ -50,8 +53,23 @@ const ProductAnalyticsPage = () => {
   };
 
   useEffect(() => {
-    fetchProductsApiCall(); // Call the API on mount
+    if (metricFilter) {
+      const data = {
+        metrics_filter: metricFilter,
+      attribute_filter: [],
+      from_date: dates.endDate || "2024-07-13",
+      to_date: dates.startDate || "2024-08-13",
+      sorting_column: "price",
+      sorting_order: "asc",
+      }
+   
+
+      fetchProductsApiCall(data);
+    } else {
+      fetchProductsApiCall(); // Call the API on mount
+    }
   }, []);
+  
 
   useEffect(() => {
     if (dates?.startDate && dates?.endDate) {

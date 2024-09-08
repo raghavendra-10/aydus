@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    images: {
-        domains: ['assets.myntassets.com'],
-      },
+  images: {
+    domains: ['cdn.shopify.com'], // Add 'cdn.shopify.com' to the list of allowed domains
+  }
     
 };
 
