@@ -16,6 +16,7 @@ import { getStopLoss, quadrantDataApi } from "@/utils/api"; // Adjust the path a
 import { useRouter } from "next/navigation";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
+import PrimaryHeader from "@/components/newComponents/PrimaryHeader";
 
 const Home = () => {
   const [xAxisMetric, setXAxisMetric] = useState("price");
@@ -144,16 +145,7 @@ const Home = () => {
     <Layout>
       <LocalizationProvider dateAdapter={AdapterMoment}>
         <div className="border-b border-gray-200 pb-5 justify-between flex items-center">
-          <h3
-            style={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              margin: "20px 0",
-            }}
-            className=" leading-6 text-gray-900"
-          >
-            Dashboard
-          </h3>
+          <PrimaryHeader heading="Dashboard" />
           <Box
             sx={{
               width: 450,

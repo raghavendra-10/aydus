@@ -18,6 +18,7 @@ import {
   UsersIcon,
   XMarkIcon,
   PresentationChartBarIcon, // New icon for Product Analytics
+  Cog6ToothIcon,
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -29,8 +30,18 @@ const navigation = [
     href: "/productAnalytics",
     icon: PresentationChartBarIcon,
   }, // New section
-  { name: "Stop Loss", href: "/stopLoss", icon: NoSymbolIcon },
-  { name: "Catalog", href: "/catalog", icon: FolderIcon },
+  // { name: "Stop Loss", href: "/stopLoss", icon: NoSymbolIcon },
+  // { name: "Catalog", href: "/catalog", icon: FolderIcon },
+  {
+    name: "Product Sets",
+    href: "/productSets",
+    icon: NoSymbolIcon,
+  },
+  {
+    name: "Settings",
+    href: "/settings",
+    icon: Cog6ToothIcon,
+  },
 ];
 
 function classNames(...classes) {
@@ -89,7 +100,11 @@ export default function Sidebar() {
                         <a
                           href={item.href}
                           className={classNames(
-                            pathname === item.href
+                            (
+                              item.href === "/"
+                                ? pathname === item.href
+                                : pathname.includes(item.href)
+                            )
                               ? "bg-gray-50 text-indigo-600"
                               : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
                             "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
@@ -98,7 +113,11 @@ export default function Sidebar() {
                           <item.icon
                             aria-hidden="true"
                             className={classNames(
-                              pathname === item.href
+                              (
+                                item.href === "/"
+                                  ? pathname === item.href
+                                  : pathname.includes(item.href)
+                              )
                                 ? "text-indigo-600"
                                 : "text-gray-400 group-hover:text-indigo-600",
                               "h-6 w-6 shrink-0"
@@ -132,7 +151,11 @@ export default function Sidebar() {
                     <a
                       href={item.href}
                       className={classNames(
-                        pathname === item.href
+                        (
+                          item.href === "/"
+                            ? pathname === item.href
+                            : pathname.includes(item.href)
+                        )
                           ? "bg-gray-50 text-indigo-600"
                           : "text-gray-700 hover:bg-gray-50 hover:text-indigo-600",
                         "group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6"
@@ -141,7 +164,11 @@ export default function Sidebar() {
                       <item.icon
                         aria-hidden="true"
                         className={classNames(
-                          router.pathname === item.href
+                          (
+                            item.href === "/"
+                              ? pathname === item.href
+                              : pathname.includes(item.href)
+                          )
                             ? "text-indigo-600"
                             : "text-gray-400 group-hover:text-indigo-600",
                           "h-6 w-6 shrink-0"
@@ -154,7 +181,7 @@ export default function Sidebar() {
               </ul>
             </nav>
           </div>
-          <div
+          {/* <div
             className="w-full flex items-center justify-center mb-5"
             onClick={() => signOut()}
           >
@@ -164,7 +191,7 @@ export default function Sidebar() {
             >
               Logout
             </button>
-          </div>
+          </div> */}
         </div>
 
         <div className="sticky top-0 z-40 flex items-center gap-x-6 bg-white px-4 py-4 shadow-sm sm:px-6 lg:hidden">

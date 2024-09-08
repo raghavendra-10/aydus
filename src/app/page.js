@@ -404,7 +404,12 @@ const Home = () => {
                             padding: "5px 10px",
                             cursor: "pointer",
                           }}
-                          onClick={() => handleViewProductsClick(data.xCondition, data.yCondition)}
+                          onClick={() =>
+                            handleViewProductsClick(
+                              data.xCondition,
+                              data.yCondition
+                            )
+                          }
                         >
                           View Products
                         </div>
@@ -481,4 +486,4 @@ const Home = () => {
   );
 };
 
-export default page;
+export default Home;
