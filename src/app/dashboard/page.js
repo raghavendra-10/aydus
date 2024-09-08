@@ -16,7 +16,6 @@ import { getStopLoss, quadrantDataApi } from "@/utils/api"; // Adjust the path a
 import { useRouter } from "next/navigation";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import moment from "moment";
-import { useProductAnalytics } from "@/components/ProductAnalyticsContext";
 
 const Home = () => {
   const [xAxisMetric, setXAxisMetric] = useState("price");
@@ -33,7 +32,6 @@ const Home = () => {
     endDate: null,
   });
   const router = useRouter();
-  const { setMetricFilter } = useProductAnalytics();
 
   const summaryData = {
     title: "Stop Loss",
@@ -100,29 +98,21 @@ const Home = () => {
             label: "High Potential Products",
             value: `${response.data.high_potential.percent}%`,
             count: response.data.high_potential.number,
-            xCondition: `${xAxisMetric}>${xAxisValue}`, // X > Value
-            yCondition: `${yAxisMetric}<${yAxisValue}`, // Y < Value
           },
           {
             label: "Top Performing Products",
             value: `${response.data.top_performing.percent}%`,
             count: response.data.top_performing.number,
-            xCondition: `${xAxisMetric}>${xAxisValue}`, // X > Value
-            yCondition: `${yAxisMetric}>${yAxisValue}`, // Y > Value
           },
           {
             label: "Low Discovery Products",
             value: `${response.data.low_discovery.percent}%`,
             count: response.data.low_discovery.number,
-            xCondition: `${xAxisMetric}<${xAxisValue}`, // X < Value
-            yCondition: `${yAxisMetric}>${yAxisValue}`, // Y > Value
           },
           {
             label: "Non Performing Products",
             value: `${response.data.non_performing.percent}%`,
             count: response.data.non_performing.number,
-            xCondition: `${xAxisMetric}<${xAxisValue}`, // X < Value
-            yCondition: `${yAxisMetric}<${yAxisValue}`, // Y < Value
           },
         ];
         setQuadrantData(formattedData);
@@ -148,27 +138,6 @@ const Home = () => {
     const startDate = moment().format("YYYY-MM-DD");
     const endDate = moment().subtract(count, type).format("YYYY-MM-DD");
     setDatesObj({ startDate, endDate });
-  };
-  const toCamelCase = (str) => {
-    return str.replace(/_./g, (s) => s.charAt(1).toUpperCase());
-  };
-
-  const handleViewProductsClick = (xCondition, yCondition) => {
-    const metricsFilter = [
-      {
-        field: toCamelCase(xCondition.split(/[><]/)[0]),
-        operator: xCondition.includes(">") ? ">" : "<",
-        value: xCondition.split(/[><]/)[1],
-      },
-      {
-        field: toCamelCase(yCondition.split(/[><]/)[0]),
-        operator: yCondition.includes(">") ? ">" : "<",
-        value: yCondition.split(/[><]/)[1],
-        conjunction: "and",
-      },
-    ];
-    setMetricFilter(metricsFilter);
-    router.push("/productAnalytics");
   };
 
   return (
@@ -196,6 +165,20 @@ const Home = () => {
               gap: 5,
             }}
           >
+            {/* <DateRangePicker
+              startText="Start Date"
+              endText="End Date"
+              value={dateRange}
+              onChange={(newValue) => {
+                setDateRange(newValue);
+              }}
+              textField={(startProps, endProps) => (
+                <>
+                  <TextField {...startProps} style={{ marginRight: 8 }} />
+                  <TextField {...endProps} />
+                </>
+              )}
+            /> */}
             <FormControl size="small" sx={{ minWidth: 130 }}>
               <InputLabel id="date-range-label">Date Range</InputLabel>
               <Select
@@ -404,7 +387,6 @@ const Home = () => {
                             padding: "5px 10px",
                             cursor: "pointer",
                           }}
-                          onClick={() => handleViewProductsClick(data.xCondition, data.yCondition)}
                         >
                           View Products
                         </div>
@@ -481,4 +463,6 @@ const Home = () => {
   );
 };
 
-export default page;
+const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
+
+export default Home;

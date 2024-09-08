@@ -20,6 +20,7 @@ import {
   PresentationChartBarIcon, // New icon for Product Analytics
 } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 
 const navigation = [
   { name: "Dashboard", href: "/", icon: HomeIcon },
@@ -152,6 +153,17 @@ export default function Sidebar() {
                 ))}
               </ul>
             </nav>
+          </div>
+          <div
+            className="w-full flex items-center justify-center mb-5"
+            onClick={() => signOut()}
+          >
+            <button
+              type="button"
+              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            >
+              Logout
+            </button>
           </div>
         </div>
 
